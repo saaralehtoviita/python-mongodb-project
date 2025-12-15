@@ -61,14 +61,8 @@ def add_familyMember():
         hobbies = hobbies.split(comma)
         hobbies = [h.strip() for h in hobbies]
 
-
-
-
-
-
     db.family_members.insert_one({ "member_name": name, "age": age, "hobbies": hobbies, "favourite_color": color
     })
-
 
 def edit_gift():
     print("Which gift do you wanna edit?")
@@ -85,6 +79,30 @@ def edit_gift():
                                 "category": category 
                             }}
                     )
+
+def edit_familyMember():
+    print("Which familymember do you wanna edit?")
+    id = input("Family member ID:")
+    print("Provide the new information for the gift:")
+    name = input("Name: ")
+    age = input("Age: ")
+    hobbies = input("Hobbies (please separate with comma): ")
+    color = input("Favourite color: ")
+
+    comma = ","
+
+    if comma in hobbies:
+        hobbies = hobbies.split(comma)
+        hobbies = [h.strip() for h in hobbies]
+
+    db.family_members.update_one({ "_id": ObjectId(id) },
+                                 { "$set": {
+                                     "member_name": name,
+                                     "age": age,
+                                     "hobbies": hobbies,
+                                     "favourite_color": color
+                                 }}
+                            )    
 
 def delete_gift():
     print("Which gift do you wanna delete?")
@@ -123,6 +141,8 @@ while True:
         add_familyMember()
     elif command == "5":
         edit_gift()
+    elif command =="6":
+        edit_familyMember()
     elif command =="7":
         delete_gift()
     elif command == "9":
