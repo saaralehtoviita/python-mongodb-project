@@ -13,10 +13,13 @@ def print_commands():
     print("\t1) List family members ")
     print("\t2) List gifts")
     print("\t3) Add a gift")
-    print("\t4) Edit a gift")
-    print("\t5) Delete a gift")
-    print("\t6) Find gifts of one familymember")
-    print("\t7) Exit application")
+    print("\t4) Add a familymember")
+    print("\t5) Edit a gift")
+    print("\t6) Edit a familymember")
+    print("\t7) Delete a gift")
+    print("\t8) Delete a familymember")
+    print("\t9) Find gifts of one familymember")
+    print("\t10) Exit application")
 
 def list_familyMembers():
     print("List of all familymember names")
@@ -44,6 +47,28 @@ def add_gift():
     })
 
     print(f"Gift {gift_name} has been added!")
+
+def add_familyMember():
+    print("Provide the familymember information: ")
+    name = input("Name of new familymember: ")
+    age = input("Age of new familymember: ")
+    hobbies = input("Hobbies of new familymember (please separate with comma): ")
+    color = input("Favourite color of new familymember: ")
+
+    comma = ","
+
+    if comma in hobbies:
+        hobbies = hobbies.split(comma)
+        hobbies = [h.strip() for h in hobbies]
+
+
+
+
+
+
+    db.family_members.insert_one({ "member_name": name, "age": age, "hobbies": hobbies, "favourite_color": color
+    })
+
 
 def edit_gift():
     print("Which gift do you wanna edit?")
@@ -95,12 +120,14 @@ while True:
     elif command == "3":
         add_gift()
     elif command =="4":
-        edit_gift()
+        add_familyMember()
     elif command == "5":
+        edit_gift()
+    elif command =="7":
         delete_gift()
-    elif command == "6":
+    elif command == "9":
         find_gifts_by_familymember()
-    elif command == "7":
+    elif command == "10":
         break
 
 print("Thank you for using the gift application, goodbye!")
