@@ -68,7 +68,7 @@ def add_familyMember():
 def edit_gift():
     print("Which gift do you wanna edit?")
     gift_id = input("Gift ID:")
-    print("Provide the new information for the familymember: ")
+    print("Provide the new information for the gift ")
     gift_name = input("gift_name:")
     price = input("price:")
     category = input("category:")
@@ -84,7 +84,7 @@ def edit_gift():
 def edit_familyMember():
     print("Which familymember do you wanna edit?")
     id = input("Family member ID:")
-    print("Provide the new information for the gift:")
+    print("Provide the new information for the familymember:")
     name = input("Name: ")
     age = input("Age: ")
     hobbies = input("Hobbies (please separate with comma): ")
