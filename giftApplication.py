@@ -19,7 +19,8 @@ def print_commands():
     print("\t7) Delete a gift")
     print("\t8) Delete a familymember")
     print("\t9) Find gifts of one familymember")
-    print("\t10) Exit application")
+    print("\t10) Sort gifts by price")
+    print("\t11) Exit application")
 
 def list_familyMembers():
     print("List of all familymember names")
@@ -39,7 +40,7 @@ def add_gift():
     print("Provide the gift information: ")
     memberId = input("MemberId:")
     gift_name = input("gift_name:")
-    price = input("price:")
+    price = float(input("price:"))
     category = input("category:")
 
     db.gifts.insert_one({
@@ -117,6 +118,20 @@ def delete_gift():
     else:
         print("Deletion cancelled")
 
+def delete_familyMember():
+    print("Which familymember do you wanna delete?")
+    id = input("Family member ID:")
+    obj_id = ObjectId(id)
+    member = db.family_members.find_one({"_id":obj_id})
+    print(f"You are about to delete this member: {member["member_name"]}. Do you want to proceed?")
+    commandDelete = input("1 = yes, 2 = no: ")
+    if commandDelete == "1":
+        db.family_members.delete_one({"_id": obj_id})
+        print("Member deleted")
+    else:
+        print("Deletion cancelled")
+
+
 def find_gifts_by_familymember():
     print("Whose gifts do you wanna list?")
     memberId = input("Family member ID:")
@@ -126,9 +141,27 @@ def find_gifts_by_familymember():
     for gift in db.gifts.find({"memberId": obj_id}):
         print(gift["gift_name"])
 
-print_commands()
+def sort_gifts_by_price():
+    print("Do you want to print gifts from lowest to highest or highest to lowest?")
+    commandOrder = input("Lowest to highest = 1, highest to lowest = 2")
+    if commandOrder == "1":
+        print("Printing gifts in order: lowest to highest")
+        gifts = db.gifts.find().sort("price", 1)
+    elif commandOrder == "2":
+        print("Printing gifts in order: highest to lowest")
+        gifts = db.gifts.find().sort("price", -1)
+
+    for g in gifts:
+        print("gift id:", g["_id"])
+        print("name of gift:", g["gift_name"])
+        print("price:", g["price"])
+        print("category:", g["category"])
+        print(20*"*")
+
+
 
 while True:
+    print_commands()
     command = input("Type in the command number: ")
 
     if command == "1":
@@ -145,9 +178,13 @@ while True:
         edit_familyMember()
     elif command =="7":
         delete_gift()
+    elif command == "8":
+        delete_familyMember()
     elif command == "9":
         find_gifts_by_familymember()
     elif command == "10":
+        sort_gifts_by_price()
+    elif command == "11":
         break
 
 print("Thank you for using the gift application, goodbye!")
